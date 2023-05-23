@@ -17,7 +17,7 @@ public class createLineItem {
 
     static {
         try {
-            LogObj = Log.getReference("ms");
+            LogObj = Log.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }

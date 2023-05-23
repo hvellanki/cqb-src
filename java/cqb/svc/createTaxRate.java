@@ -22,12 +22,12 @@ public class createTaxRate {
 
     static {
         try {
-            LogObj = Log.getReference("ms");
+            LogObj = Log.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     /*
     --"id": "TRG-360000-1071521681",
 --      "name": "E. Bayshore/County",
@@ -35,9 +35,9 @@ public class createTaxRate {
 --      "effectiveTaxRate": 8.05,
 --      "totalTaxRate": 8.05,
 --      "modifiedDate": "2023-04-21T02:49:13Z",,
-    */
+     */
     public static void createTaxRateObj(int supplierId, JSONObject acctJson) throws SQLException {
-        
+
         SafeResp RespObj = new SafeResp(acctJson);
         try {
             cqb.db.TaxRate acctObj = new cqb.db.TaxRate();
@@ -46,10 +46,10 @@ public class createTaxRate {
             acctObj.setTaxRateId(RespObj.get("id"));
 
             acctObj.setTaxRateName(RespObj.get("code"));
-       
+
             acctObj.setTaxRateValue(RespObj.getDecimal("totalTaxRate"));
             acctObj.setUpdatedDate(RespObj.get("modifiedDate"));
-            
+
             acctObj.create();
 
             createJsonRep.createJsonRep(supplierId, "TaxRate", acctObj.getTaxRateId(), acctJson.toJSONString());
@@ -63,4 +63,3 @@ public class createTaxRate {
     }
 
 }
-

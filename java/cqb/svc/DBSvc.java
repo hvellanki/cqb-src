@@ -110,7 +110,6 @@ public class DBSvc {
         }
     }
 
-   
     /**
      *
      * @param NameSpace
@@ -138,18 +137,17 @@ public class DBSvc {
         return item.loadList("Where SupplierId=" + supplierId);
     }
 
-   
     public static List getAccounts(int supplierId) throws SQLException {
         cqb.db.Account acct = new cqb.db.Account();
         return acct.loadList("Where SupplierId=" + supplierId);
     }
-/*
+
+    /*
     public static List getNotes(int supplierId) throws SQLException {
         cqb.db.CreditNote note = new cqb.db.CreditNote();
         return note.loadList("Where SupplierId=" + supplierId);
     }
-*/
-  
+     */
     /**
      *
      * @return @throws SQLException

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 public class downloadPmts {
 
@@ -19,16 +18,14 @@ public class downloadPmts {
 
     static {
         try {
-            LogObj = Log.getReference("ms");
+            LogObj = Log.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    ///customerPaymentJournals(0b4d7ebd-d36f-ec11-bb7f-6045bd8e50f8)/customerPayments
-    public void getPmts(HttpSession session) throws Exception, IOException {
+    public void getPmts(int supplierId) throws Exception, IOException {
 
-        int supplierId = (Integer) session.getAttribute("SupplierId");
         JSONObject pmtsObj = QueryHelper.getData(supplierId, "payments");
         JSONArray pmts = (JSONArray) pmtsObj.get("results");
 
@@ -46,7 +43,7 @@ public class downloadPmts {
             }
 
         } catch (Exception e) {
-           
+
             LogObj.logln("Exception message: " + e.getMessage(), Log.PINFO);
             LogObj.log(e, Log.PFATAL);
         }

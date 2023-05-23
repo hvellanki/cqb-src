@@ -14,8 +14,8 @@ public class Account extends Entity {
     protected DBStringField AccountId;
     protected DBStringField Name;
     protected DBStringField Type;
-    protected DBDecimalField Balance; 
-    
+    protected DBDecimalField Balance;
+
     protected DBStringField UpdatedDate;
 
     protected static final String TABLE_NAME = "Account_T";
@@ -47,7 +47,6 @@ public class Account extends Entity {
         Type = new DBStringField("AccountType");
         FieldsList.add(Type);
 
-        
         Balance = new DBDecimalField("Balance");
         FieldsList.add(Balance);
 
@@ -94,7 +93,6 @@ public class Account extends Entity {
      * Accessors for the objects representing various DB Fields.
      *
      */
-
     public String getUpdatedDate() {
         return UpdatedDate.getValue();
     }
@@ -103,8 +101,6 @@ public class Account extends Entity {
         this.UpdatedDate.setValue(UpdatedDate);
     }
 
-   
-
     public BigDecimal getBalance() {
         return Balance.getValue();
     }
@@ -112,7 +108,6 @@ public class Account extends Entity {
     public void setBalance(BigDecimal Balance) {
         this.Balance.setValue(Balance);
     }
-
 
     public String getAccountName() {
         return Name.getValue();

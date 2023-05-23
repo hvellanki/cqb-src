@@ -7,8 +7,8 @@ package cqb.svc;
 
 import cc.util.Log;
 import cc.util.*;
+import cqb.db.Item;
 import cqb.db.TaxRate;
-import java.util.*;
 
 import java.io.IOException;
 
@@ -80,7 +80,6 @@ public class SaveInvoice {
 
         LogObj.logln("Received DueDate : " + dueDateStr, Log.PINFO);
 
-        
         String InvDateStr = req.getParameter("InvoiceDate");
 
         String buyerId = req.getParameter("BuyerId");
@@ -97,25 +96,25 @@ public class SaveInvoice {
         //invJson.put("totalTaxAmount", new BigDecimal(req.getParameter("Tax")));
         invJson.put("totalAmount", new BigDecimal(req.getParameter("SubTotal")));
         invJson.put("amountDue", new BigDecimal(req.getParameter("Total")));
-        
+
         invJson.put("subTotal", new BigDecimal(req.getParameter("SubTotal")));
-        
+
         invJson.put("note", req.getParameter("Memo"));
 
         invJson.put("status", "Submitted");
 
         JSONArray lineItems = setLineItems(req, supplierId);
-        
+
         invJson.put("lineItems", lineItems);
-        
+
         LogObj.logln("JSON of Invoice being posted :" + invJson, Log.PHIGH);
 
         JSONObject PushResp = QueryHelper.postData(supplierId, "invoices", invJson.toString());
-        
+
         LogObj.logln("Push Response received :" + PushResp, Log.PHIGH);
 
         createInvoice.createPushedInvoice(invJson, PushResp, supplierId);
-        
+
         return "";
     }
 
@@ -144,19 +143,20 @@ public class SaveInvoice {
         TaxRate Taxable = TaxRate.getObject(supplierId, "Tax");
 
         String[] itemIds = req.getParameterValues("ItemId");
+
         String unitPrices[] = req.getParameterValues("Rate");
 
         String[] qtys = req.getParameterValues("Qty");
-        String[] subTotals = req.getParameterValues("SubTotal");
+        String[] subTotals = req.getParameterValues("Amount");
 
-        String[] netAmounts = req.getParameterValues("NetAmount");
-
+        //String[] netAmounts = req.getParameterValues("NetAmount");
         String[] taxable = req.getParameterValues("Taxable");
 
         JSONArray lineItems = new JSONArray();
         for (int i = 0; i < itemIds.length; i++) {
 
             JSONObject lineItem = new JSONObject();
+          //  Item item = Item.getObject(supplierId, itemIds[i]);
 
             JSONObject taxRef = new JSONObject();
             if (taxable[i].equalsIgnoreCase("tax")) {

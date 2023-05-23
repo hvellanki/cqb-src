@@ -24,8 +24,11 @@ public class Pmt extends Entity {
     protected DBStringField UpdatedDate;
 
     protected DBDecimalField TotalAmount;
-    
- 
+
+    protected DBStringField PushKey;
+
+    protected DBStringField Status;
+
     protected static final String TABLE_NAME = "Payment_T";
 
     @Override
@@ -63,10 +66,10 @@ public class Pmt extends Entity {
 
         AcctName = new DBStringField("AcctName");
         FieldsList.add(AcctName);
-        
+
         BuyerId = new DBStringField("BuyerId");
         FieldsList.add(BuyerId);
-        
+
         BuyerName = new DBStringField("BuyerName");
         FieldsList.add(BuyerName);
 
@@ -79,9 +82,11 @@ public class Pmt extends Entity {
         TotalAmount = new DBDecimalField("TotalAmount");
         FieldsList.add(TotalAmount);
 
+        PushKey = new DBStringField("PushKey");
+        FieldsList.add(PushKey);
 
-       
-     
+        Status = new DBStringField("Status");
+        FieldsList.add(Status);
 
     }
     /**
@@ -147,7 +152,6 @@ public class Pmt extends Entity {
         this.LinkedTxId.setValue(LinkedTxId);
     }
 
-  
     public String getBuyerId() {
         return BuyerId.getValue();
     }
@@ -162,6 +166,22 @@ public class Pmt extends Entity {
 
     public void setAcctId(String AcctId) {
         this.AcctId.setValue(AcctId);
+    }
+
+    public String getStatus() {
+        return Status.getValue();
+    }
+
+    public void setStatus(String Status) {
+        this.Status.setValue(Status);
+    }
+
+    public String getPushKey() {
+        return PushKey.getValue();
+    }
+
+    public void setPushKey(String PushKey) {
+        this.PushKey.setValue(PushKey);
     }
 
     public String getPmtRefNum() {
@@ -179,8 +199,6 @@ public class Pmt extends Entity {
     public void setSupplierId(Integer SupplierId) {
         this.SupplierId.setValue(SupplierId);
     }
-
- 
 
     public BigDecimal getTotalAmount() {
         return TotalAmount.getValue();

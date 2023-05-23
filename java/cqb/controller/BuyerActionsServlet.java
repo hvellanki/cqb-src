@@ -61,7 +61,7 @@ public class BuyerActionsServlet extends HttpServlet {
                 if (userPath.equals("/buyerAccounts")) {
                     int supplierId = (Integer) session.getAttribute("SupplierId");
                     Buyer buyer = new Buyer();
-                    List buyersList = buyer.loadList("Where SupplierId=" + supplierId + " Order by BuyerId asc");
+                    List buyersList = buyer.loadList("Where SupplierId=" + supplierId + " Order by CustomerName asc");
                     request.setAttribute("BuyersList", buyersList);
                     nextURL = jspPathPrefix + "/buyerAccounts.jsp";
                 } else if (userPath.equals("/buyerProfile")) {
@@ -73,7 +73,7 @@ public class BuyerActionsServlet extends HttpServlet {
                     if (ASTOn.equals("N")) {
                         nextURL = jspPathPrefix + "/buyerProfileV2.jsp";
                     } else {*/
-                        nextURL = jspPathPrefix + "/buyerProfile.jsp";
+                    nextURL = jspPathPrefix + "/buyerProfile.jsp";
                     //}
                     // if checkout page is requested
                 } else if (userPath.equals("/createBuyer")) {
@@ -81,7 +81,8 @@ public class BuyerActionsServlet extends HttpServlet {
                     session.setAttribute("BuyerObj", buyer);
                     request.setAttribute("Action", "Create");
                     nextURL = jspPathPrefix + "/buyerInfo.jsp";
-                } /*else if (userPath.equals("/refreshBuyer")) {
+                }
+                /*else if (userPath.equals("/refreshBuyer")) {
                     int supplierId = (Integer) session.getAttribute("SupplierId");
                     int buyerId = Integer.parseInt(request.getParameter("BuyerId"));
                     LogObj.loglnT("Refreshing buyer with Id : " + buyerId, Log.PFATAL);

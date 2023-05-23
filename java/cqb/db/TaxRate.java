@@ -13,8 +13,8 @@ public class TaxRate extends Entity {
     protected DBIntegerField SupplierId;
     protected DBStringField TaxRateId;
     protected DBStringField TaxRateName;
-    protected DBDecimalField TaxRateValue; 
-    
+    protected DBDecimalField TaxRateValue;
+
     protected DBStringField UpdatedDate;
 
     protected static final String TABLE_NAME = "TaxRate_T";
@@ -36,7 +36,7 @@ public class TaxRate extends Entity {
 
         SupplierId = new DBIntegerField("SupplierId");
         KeyFieldsList.add(SupplierId);
-        
+
         TaxRateName = new DBStringField("TaxRateName");
         KeyFieldsList.add(TaxRateName);
 
@@ -89,7 +89,6 @@ public class TaxRate extends Entity {
      * Accessors for the objects representing various DB Fields.
      *
      */
-
     public String getUpdatedDate() {
         return UpdatedDate.getValue();
     }
@@ -98,8 +97,6 @@ public class TaxRate extends Entity {
         this.UpdatedDate.setValue(UpdatedDate);
     }
 
-   
-
     public BigDecimal getTaxRateValue() {
         return TaxRateValue.getValue();
     }
@@ -107,7 +104,6 @@ public class TaxRate extends Entity {
     public void setTaxRateValue(BigDecimal TaxRateValue) {
         this.TaxRateValue.setValue(TaxRateValue);
     }
-
 
     public Integer getSupplierId() {
         return SupplierId.getValue();
@@ -124,7 +120,7 @@ public class TaxRate extends Entity {
     public void setTaxRateId(String TaxRateId) {
         this.TaxRateId.setValue(TaxRateId);
     }
-    
+
     public String getTaxRateName() {
         return TaxRateName.getValue();
     }

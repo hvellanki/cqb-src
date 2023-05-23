@@ -38,9 +38,7 @@ public class downloadInvoices {
         }
     }
 
-    public void getInvoices(HttpSession session) throws Exception {
-
-        int supplierId = (Integer) session.getAttribute("SupplierId");
+    public void getInvoices(int supplierId) throws Exception {
 
         deleteInvoices(supplierId);
 
@@ -87,7 +85,7 @@ public class downloadInvoices {
             LineItem item = new LineItem();
             item.delete("Where SupplierId=" + supplierId);
             cqb.db.Invoice invoice = new cqb.db.Invoice();
-            invoice.delete("Where SupplierId=" + supplierId );
+            invoice.delete("Where SupplierId=" + supplierId);
         } catch (CCDBException e) {
             LogObj.loglnT("Unable to delete invoices of Supplier with Id : " + supplierId, Log.PFATAL);
             LogObj.log(e, Log.PFATAL);

@@ -12,10 +12,9 @@ public class Supplier extends Entity {
     protected DBIntegerField SupplierId;
 
     protected DBStringField CompanyId;
-     protected DBStringField ConnectionId;
-    
+    protected DBStringField ConnectionId;
+
     protected DBStringField CompanyName;
-   
 
     protected DBStringField CompanyStreet;
     protected DBStringField CompanyCity;
@@ -32,6 +31,8 @@ public class Supplier extends Entity {
         return TABLE_NAME;
     }
 
+    /*CompanyId, ConnectionId, CompanyName, Email, PrimaryPhone,  
+		            CompanyStreet, CompanyCity, CompanyState, CompanyZip, AuthURL*/
     /**
      * Constructor
      */
@@ -47,13 +48,12 @@ public class Supplier extends Entity {
 
         CompanyId = new DBStringField("CompanyId");
         FieldsList.add(CompanyId);
-        
+
         ConnectionId = new DBStringField("ConnectionId");
         FieldsList.add(ConnectionId);
 
         CompanyName = new DBStringField("CompanyName");
         FieldsList.add(CompanyName);
-
 
         CompanyStreet = new DBStringField("CompanyStreet");
         FieldsList.add(CompanyStreet);
@@ -72,7 +72,7 @@ public class Supplier extends Entity {
 
         Email = new DBStringField("Email");
         FieldsList.add(Email);
-        
+
         AuthURL = new DBStringField("AuthURL");
         FieldsList.add(AuthURL);
 
@@ -124,8 +124,6 @@ public class Supplier extends Entity {
         this.SupplierId.setValue(SupplierId);
     }
 
-  
-
     public String getCompanyId() {
         return CompanyId.getValue();
     }
@@ -133,7 +131,7 @@ public class Supplier extends Entity {
     public void setCompanyId(String CompanyId) {
         this.CompanyId.setValue(CompanyId);
     }
-    
+
     public String getConnectionId() {
         return ConnectionId.getValue();
     }
@@ -142,8 +140,6 @@ public class Supplier extends Entity {
         this.ConnectionId.setValue(ConnectionId);
     }
 
- 
-
     public String getCompanyName() {
         return CompanyName.getValue();
     }
@@ -151,8 +147,6 @@ public class Supplier extends Entity {
     public void setCompanyName(String CompanyName) {
         this.CompanyName.setValue(CompanyName);
     }
-
-   
 
     public String getCompanyStreet() {
         return CompanyStreet.getValue();
@@ -201,7 +195,7 @@ public class Supplier extends Entity {
     public void setEmail(String Email) {
         this.Email.setValue(Email);
     }
-    
+
     public String getAuthURL() {
         return AuthURL.getValue();
     }

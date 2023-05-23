@@ -16,16 +16,18 @@ import java.math.BigDecimal;
 public class Item extends Entity {
 
     protected DBIntegerField SupplierId;
-    protected DBStringField ItemId;	
+    protected DBStringField ItemId;
     protected DBStringField Name;
     protected DBStringField Description;
-    
+
     protected DBStringField Type;
-    
+
     protected DBStringField IncomeAccount;
-   
+
     protected DBDecimalField UnitPrice;
     protected DBBooleanField Taxable;
+
+    protected DBStringField TaxRateId;
 
     protected static final String TABLE_NAME = "Item_T";
 
@@ -67,6 +69,9 @@ public class Item extends Entity {
 
         Taxable = new DBBooleanField("Taxable");
         FieldsList.add(Taxable);
+
+        TaxRateId = new DBStringField("TaxRateId");
+        FieldsList.add(TaxRateId);
 
     }
     /**
@@ -148,7 +153,6 @@ public class Item extends Entity {
         this.Description.setValue(Description);
     }
 
-
     public String getIncomeAccount() {
         return IncomeAccount.getValue();
     }
@@ -156,7 +160,6 @@ public class Item extends Entity {
     public void setIncomeAccount(String IncomeAccount) {
         this.IncomeAccount.setValue(IncomeAccount);
     }
-
 
     public String getTaxable() {
         if (Taxable.getValue()) {
@@ -172,12 +175,13 @@ public class Item extends Entity {
         }
     }
 
-    /*
-    private void setTaxable(boolean Taxable) {
-        this.Taxable.setValue(Taxable);
+    public String getTaxRateId() {
+        return TaxRateId.getValue();
     }
-     */
-   
+
+    public void setTaxRateId(String TaxRateId) {
+        this.TaxRateId.setValue(TaxRateId);
+    }
 
     public BigDecimal getUnitPrice() {
         return UnitPrice.getValue();

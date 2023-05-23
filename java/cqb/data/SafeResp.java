@@ -51,12 +51,12 @@ public class SafeResp {
 
         BigDecimal amt = null;
         try {
-            String amtStr = "" +  RespObj.get(Element);
+            String amtStr = "" + RespObj.get(Element);
             if (amtStr != null) {
                 amt = new BigDecimal(amtStr);
             }
         } catch (Exception e) {
-              amt = new BigDecimal(0.00);
+            amt = new BigDecimal(0.00);
         }
         return amt;
     }

@@ -197,7 +197,7 @@ public class Invoice extends Entity {
     public void setStatus(String Status) {
         this.Status.setValue(Status);
     }
-    
+
     public String getPushKey() {
         return PushKey.getValue();
     }

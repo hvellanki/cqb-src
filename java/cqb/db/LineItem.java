@@ -80,7 +80,7 @@ public class LineItem extends Entity {
 
         LineNum = new DBIntegerField("LineNum");
         FieldsList.add(LineNum);
-        
+
         ItemName = new DBStringField("ItemName");
         FieldsList.add(ItemName);
 
@@ -101,8 +101,6 @@ public class LineItem extends Entity {
 
         TotalAmount = new DBDecimalField("TotalAmount");
         FieldsList.add(TotalAmount);
-
-       
 
         Taxable = new DBStringField("Taxable");
         FieldsList.add(Taxable);

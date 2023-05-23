@@ -28,7 +28,7 @@ public class createInvoice {
 
     static {
         try {
-            LogObj = Log.getReference("ms");
+            LogObj = Log.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -149,7 +149,7 @@ public class createInvoice {
             String status = (String) dataJson.get("status");
             String pushKey = (String) dataJson.get("pushOperationKey");
 
-            invoiceObj = (Invoice) invoiceObj.loadObject("Where PushKey='" + pushKey);
+            invoiceObj = (Invoice) invoiceObj.loadObject("Where PushKey='" + pushKey + "'");
 
             if (status.equalsIgnoreCase("Success")) {
                 JSONObject pushJson = QueryHelper.getPushData(supplierId, pushKey);
@@ -160,6 +160,7 @@ public class createInvoice {
                 setInvData(invoiceJson, invoiceObj, supplierId);
 
                 invoiceObj.create();
+                setBuyerTaxRate(supplierId, invoiceObj);
                 createJsonRep.createJsonRep(supplierId, "Invoice", invoiceObj.getInvoiceId(), invoiceJson.toJSONString());
                 JSONArray lineItems = (JSONArray) invoiceJson.get("lineItems");
                 LogObj.logln("# of LineItems : " + lineItems.size(), Log.PINFO);
@@ -175,6 +176,13 @@ public class createInvoice {
             throw e;
         }
 
+    }
+
+    private static void setBuyerTaxRate(int supplierId, Invoice invObj) throws SQLException, Exception {
+
+        Buyer buyer = Buyer.getObject(supplierId, invObj.getBuyerId());
+        buyer.setTaxRate(invObj.getTaxRate());
+        buyer.update();
     }
 
     private static void setInvData(JSONObject invoiceJson, Invoice invoiceObj, int supplierId) {

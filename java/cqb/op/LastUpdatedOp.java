@@ -5,11 +5,9 @@
  */
 package cqb.op;
 
-import cqb.db.*;
 import cc.util.Log;
 import java.io.IOException;
 import java.sql.*;
-
 
 /**
  *
@@ -21,7 +19,7 @@ public class LastUpdatedOp {
 
     static {
         try {
-            LogObj = Log.getReference("ms");
+            LogObj = Log.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,16 +34,15 @@ public class LastUpdatedOp {
         upd.setSupplierId(supplierId);
         upd.setLastUpdatedTime("" + (new java.util.Date()));
         upd.create();*/
-
     }
-    
-    public static String getLastUpdatedTime(int supplierId, String entity) throws SQLException{
+
+    public static String getLastUpdatedTime(int supplierId, String entity) throws SQLException {
         String lastUpdated = "";
-        try{
-       // LastUpdated upd = LastUpdated.getObject(supplierId, entity);
-        //lastUpdated = upd.getLastUpdatedTime();
-        }catch(Exception e){
-           LogObj.loglnT("Exception when gettig lastUpdated : " + e.getMessage(), Log.PFATAL);           
+        try {
+            // LastUpdated upd = LastUpdated.getObject(supplierId, entity);
+            //lastUpdated = upd.getLastUpdatedTime();
+        } catch (Exception e) {
+            LogObj.loglnT("Exception when gettig lastUpdated : " + e.getMessage(), Log.PFATAL);
         }
         return lastUpdated;
     }
@@ -53,7 +50,7 @@ public class LastUpdatedOp {
     private static void deleteLastUpdated(int supplierId, String entity) throws SQLException {
 
         LogObj.loglnT("Deleting last updated entry of Supplier with Id : " + supplierId + " and entity " + entity, Log.PFATAL);
-       // LastUpdated upd = new LastUpdated();
+        // LastUpdated upd = new LastUpdated();
         //upd.delete("Where SupplierId=" + supplierId + " AND Entity='" + entity + "'");
 
     }

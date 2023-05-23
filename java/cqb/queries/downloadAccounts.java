@@ -18,15 +18,13 @@ public class downloadAccounts {
 
     static {
         try {
-            LogObj = Log.getReference("ms");
+            LogObj = Log.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void getAccounts(HttpSession session) throws Exception, IOException {
-
-        int supplierId = (Integer) session.getAttribute("SupplierId");
+    public void getAccounts(int supplierId) throws Exception, IOException {
 
         JSONObject acctsObj = QueryHelper.getData(supplierId, "accounts");
         JSONArray accts = (JSONArray) acctsObj.get("results");

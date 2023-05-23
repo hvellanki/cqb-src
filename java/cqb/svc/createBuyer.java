@@ -25,7 +25,7 @@ public class createBuyer {
 
     static {
         try {
-            LogObj = Log.getReference("ms");
+            LogObj = Log.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -127,7 +127,7 @@ public class createBuyer {
             buyerObj.setEmailAddress(RespObj.get("emailAddress"));
 
             buyerObj.setPhone(RespObj.get("phone"));
-            
+
             buyerObj.setTaxRate(BigDecimal.ZERO);
 
             JSONArray addresses = (JSONArray) RespObj.getObject("addresses");
@@ -159,14 +159,26 @@ public class createBuyer {
     private static void setAddress(JSONObject addr, Buyer buyerObj) {
         String contactType = (String) addr.get("type");
         if (contactType.equals("Delivery")) {
-            buyerObj.setShipName((String) addr.get("line1"));
-            buyerObj.setShipStreet((String) addr.get("line2"));
+            String line2 = (String) addr.get("line2");
+            // Sometimes line1 may have Street address instead of name and line2 will be empty
+            if (line2 != null && line2.length() > 0) {
+                buyerObj.setShipName((String) addr.get("line1"));
+                buyerObj.setShipStreet((String) addr.get("line2"));
+            } else {
+                buyerObj.setShipStreet((String) addr.get("line1"));
+            }
             buyerObj.setShipCity((String) addr.get("city"));
             buyerObj.setShipState((String) addr.get("region"));
             buyerObj.setShipZip((String) addr.get("postalCode"));
         } else {
-            buyerObj.setBillName((String) addr.get("line1"));
-            buyerObj.setBillStreet((String) addr.get("line2"));
+            String line2 = (String) addr.get("line2");
+            // Sometimes line1 may have Street address instead of name and line2 will be empty
+            if (line2 != null && line2.length() > 0) {
+                buyerObj.setBillName((String) addr.get("line1"));
+                buyerObj.setBillStreet((String) addr.get("line2"));
+            } else {
+                buyerObj.setBillStreet((String) addr.get("line1"));
+            }
             buyerObj.setBillCity((String) addr.get("city"));
             buyerObj.setBillState((String) addr.get("region"));
             buyerObj.setBillZip((String) addr.get("postalCode"));

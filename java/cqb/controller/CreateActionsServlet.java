@@ -7,7 +7,6 @@ package cqb.controller;
 
 import cqb.data.InvoiceInfo;
 import cqb.svc.*;
-import cqb.op.*;
 import cqb.db.*;
 import cc.util.*;
 import java.io.*;
@@ -17,13 +16,13 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
-
 /**
  *
  * @author hari-work
  */
 @WebServlet(name = "CreateActionsServlet", urlPatterns = {"/voidInvoice", "/createInvoice", "/confirmInvoice", "/cancelInvoice",
-    "/receivePayment", "/processPayment", "/saveInvoice", "/sendInvoice", "/createItem", "/saveItem"})
+    "/receivePayment", "/processPayment", "/saveInvoice", "/sendInvoice", "/createCompany", "/saveCompany"})
+
 public class CreateActionsServlet extends HttpServlet {
 
     final String jspPathPrefix = "/WEB-INF/view";
@@ -84,8 +83,7 @@ public class CreateActionsServlet extends HttpServlet {
                 int supplierId = (Integer) session.getAttribute("SupplierId");
                 String buyerId = request.getParameter("BuyerId");
                 SaveInvoice Obj = new SaveInvoice();
-                String invoiceId = Obj.saveInvoice(request, session, supplierId);
-                
+                Obj.saveInvoice(request, session, supplierId);
                 Buyer buyer = Buyer.getObject(supplierId, buyerId);
                 List<InvoiceInfo> infoList = BuyerSvc.getBuyerInvoices(supplierId, buyerId);
                 request.setAttribute("InvoiceInfo", infoList);
@@ -104,42 +102,24 @@ public class CreateActionsServlet extends HttpServlet {
                 request.setAttribute("BuyerObj", buyer);
                 request.setAttribute("Amount", Amount);
                 nextURL = jspPathPrefix + "/receivePayment.jsp?time=" + java.time.Instant.now().getEpochSecond();
-            } /*else if (userPath.equals("/issueCredit")) {
-                int supplierId = (Integer) session.getAttribute("SupplierId");
-                int invoiceId = Integer.parseInt(request.getParameter("InvoiceId"));
+            } else if (userPath.equals("/createCompany")) {
+                nextURL = jspPathPrefix + "/createCompany.jsp";
+            } else if (userPath.equals("/saveCompany")) {
+                Supplier supplierObj = SaveCompany.saveCompany(request, session);
+                session.setAttribute("SupplierName", supplierObj.getCompanyName());
+                session.setAttribute("CompanyId", supplierObj.getCompanyId());
+                User userObj = new User();
 
-                CreateCreditMemo MemoOp = new CreateCreditMemo();
-                CreditMemo MemoObj = MemoOp.createCreditMemo(supplierId, invoiceId, request);
-
-                String DisplayMsg = "Credit has been issued!";
-                request.setAttribute("DisplayMsg", DisplayMsg);
-                CreatePayment PmtObj = new CreatePayment();
-                PmtObj.createMemoPayment(supplierId, MemoObj.getId(), invoiceId, MemoObj.getTotalAmt(), request.getParameter("ReasonCode"));
-                nextURL = jspPathPrefix + "/confirmAction.jsp";
-
-            } else if (userPath.equals("/createItem")) {
+                userObj = (User) userObj.loadObject("Where SupplierId=" + supplierObj.getSupplierId());
+                session.setAttribute("UserId", userObj.getUserId());
+                session.setAttribute("Password", userObj.getPassword());
+                nextURL = jspPathPrefix + "/createdCompany.jsp";
+            } else if (userPath.equals("/processPayment")) {
                 int supplierId = (Integer) session.getAttribute("SupplierId");
-                QBOAccount acct = new QBOAccount();
-                List iAcctsList = DBSvc.getIncomeAccounts(supplierId);
-//acct.loadList("Where SupplierId=" + supplierId + " AND AccountType='Income'");
-                request.setAttribute("IncomeAccountsList", iAcctsList);
-                List eAcctsList = DBSvc.getExpenseAccounts(supplierId);
-//acct.loadList("Where SupplierId=" + supplierId + " AND AccountType='Expense'");
-                request.setAttribute("ExpenseAccountsList", eAcctsList);
-                nextURL = jspPathPrefix + "/createItem.jsp";
-            } else if (userPath.equals("/saveItem")) {
-                int supplierId = (Integer) session.getAttribute("SupplierId");
-                SaveItem saveObj = new SaveItem();
-                com.intuit.ipp.data.Item itemObj = saveObj.saveItem(request, supplierId);
-                String itemName = itemObj.getFullyQualifiedName();
-                request.setAttribute("DisplayMsg", "New Item " + itemName + ", has been created");
-                nextURL = jspPathPrefix + "/confirmAction.jsp";
-            }*/ else if (userPath.equals("/processPayment")) {
-                int supplierId = (Integer) session.getAttribute("SupplierId");
-                int invoiceId = Integer.parseInt(request.getParameter("InvoiceId"));
+                String invoiceId = request.getParameter("InvoiceId");
                 BigDecimal Amount = new BigDecimal(request.getParameter("Amount"));
-                //CreatePayment PmtObj = new CreatePayment();
-                //PmtObj.createPayment(supplierId, invoiceId, Amount);
+                SavePmt PmtObj = new SavePmt();
+                PmtObj.savePmt(request, session, supplierId);
 
                 String DisplayMsg = "Thank you for your Payment!";
                 request.setAttribute("DisplayMsg", DisplayMsg);

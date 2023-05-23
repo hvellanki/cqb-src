@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
-import cqb.db.LineItem;
 import cqb.db.JsonRep;
 import cqb.svc.*;
 import cc.util.CCDBException;
@@ -38,9 +37,7 @@ public class downloadItems {
         }
     }
 
-    public void getItems(HttpSession session) throws Exception {
-
-        int supplierId = (Integer) session.getAttribute("SupplierId");
+    public void getItems(int supplierId) throws Exception {
 
         deleteItems(supplierId);
         deleteItemsJson(supplierId);
@@ -72,6 +69,7 @@ public class downloadItems {
         }
 
     }
+
     private void deleteItems(int supplierId) throws SQLException {
         try {
             LogObj.loglnT("Deleting items of Supplier with Id : " + supplierId, Log.PFATAL);

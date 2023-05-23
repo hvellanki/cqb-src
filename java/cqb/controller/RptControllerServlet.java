@@ -30,7 +30,7 @@ import javax.servlet.http.*;
  */
 @WebServlet(name = "RptControllerServlet",
         urlPatterns
-        = {"/supplierProfile", "/buyersInvoices", "/buyerInvoices", "/invoiceItems", "/showItems", "/showPmts", 
+        = {"/supplierProfile", "/buyersInvoices", "/buyerInvoices", "/invoiceItems", "/showItems", "/showPmts",
             "/showAccounts", "/displayJson", "/tBI"})
 
 public class RptControllerServlet extends HttpServlet {
@@ -103,7 +103,7 @@ public class RptControllerServlet extends HttpServlet {
                     List<Pmt> pmtList = DBSvc.getPmts(supplierId);
                     request.setAttribute("PmtList", pmtList);
                     nextURL = jspPathPrefix + "/showPmts.jsp?time=" + java.time.Instant.now().getEpochSecond();
-                }  else if (userPath.equals("/showAccounts")) {
+                } else if (userPath.equals("/showAccounts")) {
                     int supplierId = (Integer) session.getAttribute("SupplierId");
                     List<Account> acctList = DBSvc.getAccounts(supplierId);
                     request.setAttribute("AccountList", acctList);

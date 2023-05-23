@@ -23,7 +23,7 @@ import javax.servlet.http.*;
  * @author hari-work
  */
 @WebServlet(name = "MainControllerServlet", urlPatterns
-        = {"/login", "/verifyLogin", "/logout", "/refreshData", "/authorize", "/syncData", "/displayMsg", "/topMenu"})
+        = {"/login", "/verifyLogin", "/logout", "/refreshData", "/authorize", "/syncData", "/syncAllData", "/displayMsg", "/topMenu"})
 public class MainControllerServlet extends HttpServlet {
 
     final String jspPathPrefix = "/WEB-INF/view";
@@ -93,13 +93,18 @@ public class MainControllerServlet extends HttpServlet {
                 nextURL = jspPathPrefix + "/login.jsp";
                 session.invalidate();
             } else if (userPath.equals("/refreshData")) {
-                getDataFromCodat(session);
+                int supplierId = (Integer) session.getAttribute("SupplierId");
+                getDataFromCodat(supplierId);
                 session.setAttribute("DisplayMsg", "Bill360 has updated your account");
                 nextURL = jspPathPrefix + "/displayMsg.jsp";
 
             } else if (userPath.equals("/syncAllData")) {
                 int supplierId = (Integer) session.getAttribute("SupplierId");
-                QueryHelper.syncAllData(supplierId);
+                //QueryHelper.syncAllData(supplierId);
+                QueryHelper.syncData(supplierId, "invoices");
+                QueryHelper.syncData(supplierId, "items");
+                QueryHelper.syncData(supplierId, "customers");
+                QueryHelper.syncData(supplierId, "payments");
                 session.setAttribute("DisplayMsg", "Bill360 is updating your account");
                 nextURL = jspPathPrefix + "/displayMsg.jsp";
 
@@ -150,25 +155,25 @@ public class MainControllerServlet extends HttpServlet {
         }
     }
 
-    private void getDataFromCodat(HttpSession session) throws Exception {
-        
+    private void getDataFromCodat(int supplierId) throws Exception {
+
         downloadTaxRates svcRateObj = new downloadTaxRates();
-        svcRateObj.getTaxRates(session);
+        svcRateObj.getTaxRates(supplierId);
 
         downloadAccounts svcAcctObj = new downloadAccounts();
-        svcAcctObj.getAccounts(session);
+        svcAcctObj.getAccounts(supplierId);
 
         downloadItems svcItemsObj = new downloadItems();
-        svcItemsObj.getItems(session);
+        svcItemsObj.getItems(supplierId);
 
         downloadPmts svcPmtObj = new downloadPmts();
-        svcPmtObj.getPmts(session);
+        svcPmtObj.getPmts(supplierId);
 
         downloadBuyers svcObj = new downloadBuyers();
-        svcObj.getBuyers(session);
+        svcObj.getBuyers(supplierId);
 
         downloadInvoices svcInvoicesObj = new downloadInvoices();
-        svcInvoicesObj.getInvoices(session);
+        svcInvoicesObj.getInvoices(supplierId);
 
         LogObj.loglnT("Finished downloading Buyer info  ", Log.PINFO);
 

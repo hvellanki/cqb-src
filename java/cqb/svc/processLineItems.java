@@ -15,18 +15,16 @@ public class processLineItems {
 
     static {
         try {
-            LogObj = Log.getReference("ms");
+            LogObj = Log.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
 
-    public static void process(JSONArray items,  String invoiceId, int supplierId) throws SQLException{
-
+    public static void process(JSONArray items, String invoiceId, int supplierId) throws SQLException {
 
         deleteItems(supplierId, invoiceId);
-       
+
         try {
             for (int i = 0; i < items.size(); i++) {
 
@@ -41,14 +39,14 @@ public class processLineItems {
             LogObj.log(e, Log.PFATAL);
             throw e;
         }
-      
+
     }
 
     private static void deleteItems(int supplierId, String invoiceId) throws SQLException {
         try {
             LogObj.loglnT("Deleting line items of Supplier with Id : " + supplierId + " AND InvoiceId :" + invoiceId, Log.PFATAL);
             cqb.db.LineItem item = new cqb.db.LineItem();
-            item.delete("Where SupplierId=" + supplierId + " AND InvoiceId like '" + invoiceId +"%'");
+            item.delete("Where SupplierId=" + supplierId + " AND InvoiceId like '" + invoiceId + "%'");
 
         } catch (CCDBException e) {
             LogObj.loglnT("Unable to delete line Items of Supplier with Id : " + supplierId, Log.PFATAL);

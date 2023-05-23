@@ -31,8 +31,8 @@ public class SvcUtil {
 
     static {
         try {
-            LogObj = Log.getReference("ms");
-            PropsObj = Props.getReference("ms");
+            LogObj = Log.getReference("cqb");
+            PropsObj = Props.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class SvcUtil {
         byte[] hmacSha256 = calcHmacSha256(secretKey.getBytes(), msg.getBytes());
 
         String base64HmacSha256 = Base64.getEncoder().encodeToString(hmacSha256);
-       
+
         return base64HmacSha256;
     }
 
@@ -85,31 +85,37 @@ public class SvcUtil {
         SimpleDateFormat mdyFormat = new SimpleDateFormat("MM/dd/yyyy");
         return mdyFormat.format(myDate);
     }
-    
+
     // Converts MM/DD/YYYY to YYYY-MM-DD
-    public static String getISODate(String DateStr){
+    public static String getISODate(String DateStr) {
         int indexM = DateStr.indexOf("/");
         String MM = DateStr.substring(0, indexM);
-        if (MM.length() == 1){
+        if (MM.length() == 1) {
             MM = "0" + MM;
         }
-        
-        int indexD = DateStr.indexOf("/", indexM+1);
-        String DD = DateStr.substring(indexM+1, indexD);
-        if (DD.length() == 1){
+
+        int indexD = DateStr.indexOf("/", indexM + 1);
+        String DD = DateStr.substring(indexM + 1, indexD);
+        if (DD.length() == 1) {
             DD = "0" + DD;
         }
-        
-        String YYYY = DateStr.substring(indexD+1);
-        
+
+        String YYYY = DateStr.substring(indexD + 1);
+
         return YYYY + "-" + MM + "-" + DD;
-        
+
     }
-    
-    public static String getISODateTime(String DateStr){
-        
-        return getISODate(DateStr)+ "T00:00:00Z";
-        
+
+    public static String getISODateTime(String DateStr) {
+
+        return getISODate(DateStr) + "T00:00:00Z";
+
+    }
+
+    public static String getCurrentISODateTime() {
+
+        return getISODateTime(getCurrentDate());
+
     }
 
     public static String getBody(HttpServletRequest request) throws IOException {
@@ -129,11 +135,11 @@ public class SvcUtil {
         }
         return stringBuilder.toString();
     }
-    
-    public static BigDecimal getSafeAmount(Double Amount){
-        if(Amount == null){
+
+    public static BigDecimal getSafeAmount(Double Amount) {
+        if (Amount == null) {
             return new BigDecimal(0.0);
-        }else{
+        } else {
             return new BigDecimal(Amount);
         }
     }
@@ -195,9 +201,9 @@ public class SvcUtil {
         String epochTime = dateStr.substring(startTimestamp, end);
         return new Date(Long.parseLong(epochTime));
     }
-/*    
+    /*    
     public static String getXeroDate(String DateStr){
         Date jDate = Date.
     } 
-*/    
+     */
 }

@@ -18,15 +18,13 @@ public class downloadTaxRates {
 
     static {
         try {
-            LogObj = Log.getReference("ms");
+            LogObj = Log.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void getTaxRates(HttpSession session) throws Exception, IOException {
-
-        int supplierId = (Integer) session.getAttribute("SupplierId");
+    public void getTaxRates(int supplierId) throws Exception, IOException {
 
         JSONObject ratesObj = QueryHelper.getData(supplierId, "taxRates");
         JSONArray rates = (JSONArray) ratesObj.get("results");
@@ -79,4 +77,3 @@ public class downloadTaxRates {
     }
 
 }
-

@@ -8,12 +8,10 @@ package cqb.queries;
 
 import cqb.svc.*;
 
-import cqb.svc.createJsonRep;
 import cqb.db.Buyer;
 import cqb.db.JsonRep;
 import cc.util.*;
 
-import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -44,11 +42,7 @@ public class downloadBuyers {
      * @param session
      * @return
      */
-
-    private int supplierId;
-    public void getBuyers(HttpSession session) throws SQLException, Exception {
-
-        supplierId = (Integer) session.getAttribute("SupplierId");
+    public void getBuyers(int supplierId) throws SQLException, Exception {
 
         deleteBuyers(supplierId);
         deleteBuyerJson(supplierId);
@@ -60,7 +54,7 @@ public class downloadBuyers {
 
             LogObj.logln("# of buyers : " + buyers.size(), Log.PINFO);
 
-            processBuyers(buyers);
+            processBuyers(buyers, supplierId);
 
         } catch (Exception e1) {
             LogObj.loglnT("Exception while downloading buyers: " + e1.getMessage(), Log.PFATAL);
@@ -69,7 +63,7 @@ public class downloadBuyers {
 
     }
 
-    private void processBuyers(JSONArray buyers) throws SQLException, Exception {
+    private void processBuyers(JSONArray buyers, int supplierId) throws SQLException, Exception {
         LogObj.loglnT("Number of buyers returned " + buyers.size(), Log.PFATAL);
 
         if (buyers.size() > 0) {

@@ -18,12 +18,12 @@ import org.json.simple.*;
  * @author hari-work
  */
 public class createItem {
-
+    
     static Log LogObj = null;
-
+    
     static {
         try {
-            LogObj = Log.getReference("ms");
+            LogObj = Log.getReference("cqb");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,33 +53,33 @@ public class createItem {
       
      */
     public static void create(int supplierId, JSONObject itemJson) throws Exception {
-
+        
         LogObj.logln("Processing itemJSON: " + itemJson, Log.PINFO);
-
+        
         SafeResp RespObj = new SafeResp(itemJson);
         try {
             cqb.db.Item itemObj = new cqb.db.Item();
-
+            
             itemObj.setSupplierId(supplierId);
             itemObj.setItemId(RespObj.get("id"));
-
+            
             itemObj.setName(RespObj.get("name"));
             itemObj.setType(RespObj.get("type"));
-
+            
             JSONObject invItem = (JSONObject) RespObj.getObject("invoiceItem");
             if (invItem != null) {
                 itemObj.setDescription((String) invItem.get("descripton"));
-
+                
                 if (invItem.get("unitPrice") != null) {
                     itemObj.setUnitPrice(new BigDecimal("" + invItem.get("unitPrice")));
-                    itemObj.setDescription((String)invItem.get("description"));
+                    itemObj.setDescription((String) invItem.get("description"));
                 }
-
+                
                 JSONObject acctRef = (JSONObject) invItem.get("accountRef");
                 if (acctRef != null) {
                     itemObj.setIncomeAccount((String) acctRef.get("name"));
                 }
-
+                
                 JSONObject taxRef = (JSONObject) invItem.get("taxRateRef");
                 if (taxRef != null) {
                     String taxName = (String) taxRef.get("name");
@@ -88,9 +88,10 @@ public class createItem {
                     } else {
                         itemObj.setTaxable(false);
                     }
+                    itemObj.setTaxRateId((String) taxRef.get("id"));
                 }
             }
-
+            
             itemObj.create();
             createJsonRep.createJsonRep(supplierId, "Item", itemObj.getItemId(), itemJson.toJSONString());
         } catch (Exception e) {
@@ -98,7 +99,7 @@ public class createItem {
             LogObj.log(e, Log.PFATAL);
             throw e;
         }
-
+        
     }
-
+    
 }

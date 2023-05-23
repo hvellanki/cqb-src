@@ -11,29 +11,27 @@ import java.sql.SQLException;
 public class Buyer extends Entity {
 
     protected DBIntegerField SupplierId;
- 
+
     protected DBStringField BuyerId;
     protected DBStringField CustomerName;
     protected DBStringField ContactName;
     protected DBStringField EmailAddress;
     protected DBStringField Phone;
- 
+
     protected DBStringField BillName;
     protected DBStringField BillStreet;
     protected DBStringField BillCity;
     protected DBStringField BillState;
     protected DBStringField BillZip;
-    
+
     protected DBStringField ShipName;
     protected DBStringField ShipStreet;
     protected DBStringField ShipCity;
     protected DBStringField ShipState;
     protected DBStringField ShipZip;
-    
-    protected DBDecimalField TaxRate; 
-    //protected DBStringField ShipAddr;
 
-   
+    protected DBDecimalField TaxRate;
+    //protected DBStringField ShipAddr;
 
     protected static final String TABLE_NAME = "Buyer_T";
 
@@ -84,7 +82,7 @@ public class Buyer extends Entity {
 
         BillZip = new DBStringField("BillZip");
         FieldsList.add(BillZip);
-        
+
         ShipName = new DBStringField("ShipName");
         FieldsList.add(ShipName);
 
@@ -99,7 +97,7 @@ public class Buyer extends Entity {
 
         ShipZip = new DBStringField("ShipZip");
         FieldsList.add(ShipZip);
-        
+
         TaxRate = new DBDecimalField("TaxRate");
         FieldsList.add(TaxRate);
 
@@ -175,8 +173,6 @@ public class Buyer extends Entity {
         this.ContactName.setValue(ContactName);
     }
 
-   
-
     public String getPhone() {
         return Phone.getValue();
     }
@@ -184,8 +180,6 @@ public class Buyer extends Entity {
     public void setPhone(String Phone) {
         this.Phone.setValue(Phone);
     }
-
-  
 
     public String getBillName() {
         return BillName.getValue();
@@ -226,8 +220,8 @@ public class Buyer extends Entity {
     public void setBillState(String BillState) {
         this.BillState.setValue(BillState);
     }
-    
-        public String getShipName() {
+
+    public String getShipName() {
         return ShipName.getValue();
     }
 
@@ -267,7 +261,6 @@ public class Buyer extends Entity {
         this.ShipState.setValue(ShipState);
     }
 
-
     public String getEmailAddress() {
         return EmailAddress.getValue();
     }
@@ -284,8 +277,52 @@ public class Buyer extends Entity {
         this.TaxRate.setValue(TaxRate);
     }
 
+    public String getRateDetail() {
+        String strTaxRate = "" + TaxRate.getValue();
+        String RateDetail = "0.00";
+        if (!strTaxRate.equals("0.00")) {
+            RateDetail = "Rate from QBD for the Buyer:" + strTaxRate;
+        }
+
+        return RateDetail;
+    }
 
     public String getBillAddress() {
+        String Address = BillStreet.getValue();
+        if (!BillStreet.getValue().isEmpty()) {
+            Address += ", ";
+        }
+        Address += BillCity.getValue();
+        if (!BillCity.getValue().isEmpty()) {
+            Address += ", ";
+        }
+
+        Address += BillState.getValue();
+
+        Address += ", " + BillZip.getValue();
+        return Address;
+
+    }
+
+    public String getShipAddress() {
+
+        String Address = ShipStreet.getValue();
+        if (!ShipStreet.getValue().isEmpty()) {
+            Address += ", ";
+        }
+        Address += ShipCity.getValue();
+        if (!ShipCity.getValue().isEmpty()) {
+            Address += ", ";
+        }
+
+        Address += ShipState.getValue();
+
+        Address += ", " + ShipZip.getValue();
+        return Address;
+
+    }
+
+    /* public String getBillAddress() {
         String Address = "";
         if (BillStreet.getValue().isEmpty()) {
             return Address;
@@ -310,8 +347,8 @@ public class Buyer extends Entity {
             }
 
         }
-    }
-
+    }*/
+ /*
     public String getShipAddress() {
         String Address = "";
         if (ShipStreet.getValue().isEmpty()) {
@@ -337,8 +374,7 @@ public class Buyer extends Entity {
             }
 
         }
-    }
-
+    }*/
     public static Buyer getObject(int supplierId, String buyerId)
             throws SQLException {
         Buyer Obj = new Buyer();
